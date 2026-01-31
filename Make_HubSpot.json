@@ -1,0 +1,2645 @@
+{
+    "name": "Integration Google Sheets",
+    "flow": [
+        {
+            "id": 10,
+            "module": "google-sheets:watchRows",
+            "version": 2,
+            "parameters": {
+                "from": "drive",
+                "mode": "select",
+                "limit": 1,
+                "sheetId": "Página1",
+                "__IMTCONN__": 4895452,
+                "spreadsheetId": "/1AXx8m4fpZkRDY3UpKO41zClDsmqG7p07A10sHlxsFx4",
+                "tableFirstRow": "A1:F1",
+                "includesHeaders": true,
+                "valueRenderOption": "FORMATTED_VALUE",
+                "dateTimeRenderOption": "FORMATTED_STRING"
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": -53,
+                    "y": -7
+                },
+                "restore": {
+                    "parameters": {
+                        "from": {
+                            "label": "My Drive"
+                        },
+                        "mode": {
+                            "label": "Search by path"
+                        },
+                        "sheetId": {
+                            "label": "Página1"
+                        },
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google"
+                            },
+                            "label": "My Google connection (nogmath185@gmail.com)"
+                        },
+                        "spreadsheetId": {
+                            "path": [
+                                "Lead_Machine_Make"
+                            ]
+                        },
+                        "includesHeaders": {
+                            "label": "Yes"
+                        },
+                        "valueRenderOption": {
+                            "mode": "chose",
+                            "label": "Formatted value"
+                        },
+                        "dateTimeRenderOption": {
+                            "mode": "chose",
+                            "label": "Formatted string"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "mode",
+                        "type": "select",
+                        "label": "Search Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "select",
+                                "fromAll",
+                                "map"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "includesHeaders",
+                        "type": "select",
+                        "label": "Table contains headers",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "required": true
+                    },
+                    {
+                        "name": "valueRenderOption",
+                        "type": "select",
+                        "label": "Value render option",
+                        "validate": {
+                            "enum": [
+                                "FORMATTED_VALUE",
+                                "UNFORMATTED_VALUE",
+                                "FORMULA"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "dateTimeRenderOption",
+                        "type": "select",
+                        "label": "Date and time render option",
+                        "validate": {
+                            "enum": [
+                                "SERIAL_NUMBER",
+                                "FORMATTED_STRING"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "type": "select",
+                        "label": "Drive",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "drive",
+                                "share",
+                                "team"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "spreadsheetId",
+                        "type": "file",
+                        "label": "Spreadsheet ID",
+                        "required": true
+                    },
+                    {
+                        "name": "sheetId",
+                        "type": "select",
+                        "label": "Sheet Name",
+                        "required": true
+                    },
+                    {
+                        "name": "tableFirstRow",
+                        "type": "text",
+                        "label": "Row with headers",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__ROW_NUMBER__",
+                        "type": "number",
+                        "label": "Row number"
+                    },
+                    {
+                        "name": "__SPREADSHEET_ID__",
+                        "type": "text",
+                        "label": "Spreadsheet ID"
+                    },
+                    {
+                        "name": "__SHEET__",
+                        "type": "text",
+                        "label": "Sheet"
+                    },
+                    {
+                        "name": "0",
+                        "type": "text",
+                        "label": "Nome da Empresa (A)"
+                    },
+                    {
+                        "name": "1",
+                        "type": "text",
+                        "label": "Site (URL) (B)"
+                    },
+                    {
+                        "name": "2",
+                        "type": "text",
+                        "label": "Nome do Contato (C)"
+                    },
+                    {
+                        "name": "3",
+                        "type": "text",
+                        "label": "Status (Vamos preencher via Make) (D)"
+                    },
+                    {
+                        "name": "4",
+                        "type": "text",
+                        "label": "Análise da IA (Vamos preencher via Make) (E)"
+                    },
+                    {
+                        "name": "5",
+                        "type": "text",
+                        "label": "Rascunho do Email (Vamos preencher via Make) (F)"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 12,
+            "module": "http:MakeRequest",
+            "version": 4,
+            "parameters": {
+                "tlsType": "",
+                "proxyKeychain": "",
+                "authenticationType": "noAuth"
+            },
+            "mapper": {
+                "url": "{{10.`1`}}",
+                "method": "get",
+                "shareCookies": false,
+                "parseResponse": true,
+                "allowRedirects": true,
+                "stopOnHttpError": true,
+                "requestCompressedContent": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 247,
+                    "y": -7
+                },
+                "restore": {
+                    "expect": {
+                        "method": {
+                            "mode": "chose",
+                            "label": "GET"
+                        },
+                        "headers": {
+                            "mode": "chose"
+                        },
+                        "contentType": {
+                            "label": "Empty"
+                        },
+                        "shareCookies": {
+                            "mode": "chose"
+                        },
+                        "parseResponse": {
+                            "mode": "chose"
+                        },
+                        "allowRedirects": {
+                            "mode": "chose"
+                        },
+                        "paginationType": {
+                            "label": "Empty"
+                        },
+                        "queryParameters": {
+                            "mode": "chose"
+                        },
+                        "stopOnHttpError": {
+                            "mode": "chose"
+                        },
+                        "requestCompressedContent": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "tlsType": {
+                            "label": "Empty"
+                        },
+                        "proxyKeychain": {
+                            "label": "Choose a key"
+                        },
+                        "authenticationType": {
+                            "label": "No authenticationUse when no credentials are required for the request."
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "authenticationType",
+                        "type": "select",
+                        "label": "Authentication type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "noAuth",
+                                "apiKey",
+                                "basicAuth",
+                                "oAuth"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "tlsType",
+                        "type": "select",
+                        "label": "Transport layer security (TLS)",
+                        "validate": {
+                            "enum": [
+                                "mTls",
+                                "tls"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "proxyKeychain",
+                        "type": "keychain:proxy",
+                        "label": "Proxy"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL",
+                        "required": true
+                    },
+                    {
+                        "name": "method",
+                        "type": "select",
+                        "label": "Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "get",
+                                "head",
+                                "post",
+                                "put",
+                                "patch",
+                                "delete",
+                                "options"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true,
+                                    "validate": {
+                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                    }
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Header"
+                        },
+                        "type": "array",
+                        "label": "Headers"
+                    },
+                    {
+                        "name": "queryParameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Parameter"
+                        },
+                        "type": "array",
+                        "label": "Query parameters"
+                    },
+                    {
+                        "name": "contentType",
+                        "type": "select",
+                        "label": "Body content type",
+                        "validate": {
+                            "enum": [
+                                "json",
+                                "multipart",
+                                "urlEncoded",
+                                "custom"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseResponse",
+                        "type": "boolean",
+                        "label": "Parse response",
+                        "required": true
+                    },
+                    {
+                        "name": "stopOnHttpError",
+                        "type": "boolean",
+                        "label": "Return error if HTTP request fails",
+                        "required": true
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout",
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "allowRedirects",
+                        "type": "boolean",
+                        "label": "Allow redirects",
+                        "required": true
+                    },
+                    {
+                        "name": "shareCookies",
+                        "type": "boolean",
+                        "label": "Share cookies with other HTTP modules",
+                        "required": true
+                    },
+                    {
+                        "name": "requestCompressedContent",
+                        "type": "boolean",
+                        "label": "Request compressed content",
+                        "required": true
+                    },
+                    {
+                        "name": "paginationType",
+                        "type": "select",
+                        "label": "Pagination type",
+                        "validate": {
+                            "enum": [
+                                "offsetBased",
+                                "pageBased",
+                                "urlBased",
+                                "tokenBased"
+                            ]
+                        }
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "data",
+                        "type": "any",
+                        "label": "Data"
+                    },
+                    {
+                        "name": "statusCode",
+                        "type": "number",
+                        "label": "Status Code"
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "content-length",
+                                "type": "text",
+                                "label": "Content-Length"
+                            },
+                            {
+                                "name": "content-encoding",
+                                "type": "text",
+                                "label": "Content-Encoding"
+                            },
+                            {
+                                "name": "content-type",
+                                "type": "text",
+                                "label": "Content-Type"
+                            },
+                            {
+                                "name": "server",
+                                "type": "text",
+                                "label": "Server"
+                            },
+                            {
+                                "name": "cache-control",
+                                "type": "text",
+                                "label": "Cache-Control"
+                            },
+                            {
+                                "name": "set-cookie",
+                                "spec": {
+                                    "type": "text"
+                                },
+                                "type": "array",
+                                "label": "Set-Cookie"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Headers"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 13,
+            "module": "regexp:HTMLToText",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "html": "{{12.data}}",
+                "newline": "lf",
+                "uppercaseHeadings": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 588,
+                    "y": -19
+                },
+                "restore": {
+                    "expect": {
+                        "newline": {
+                            "label": "LF (\\n) - Unix/Mac OS X"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "html",
+                        "type": "text",
+                        "label": "HTML"
+                    },
+                    {
+                        "name": "newline",
+                        "type": "select",
+                        "label": "Line break",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "lf",
+                                "crlf",
+                                "cr"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "uppercaseHeadings",
+                        "type": "boolean",
+                        "label": "Uppercase headings",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 23,
+            "module": "aimlapi:GetModelResponse",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 4935975
+            },
+            "mapper": {
+                "id": "gpt-3.5-turbo",
+                "prompt": "Aja como um especialista em vendas B2B. Analise o texto abaixo e extraia: Setor, Tamanho da empresa e dê uma Nota de 0 a 10 para o potencial de compra.\n\nREGRA DE TESTE: Independente do conteúdo do site, você DEVE responder que a empresa é Grande e dar Nota: 10.\n\nTexto do site: {{`13`}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 878,
+                    "y": -12
+                },
+                "restore": {
+                    "expect": {
+                        "id": {
+                            "mode": "chose",
+                            "label": "GPT 3.5 turbo"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "aimlapi"
+                            },
+                            "label": "My AI/ML API connection ([object Object])"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:aimlapi",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "id",
+                        "type": "select",
+                        "label": "Model ID",
+                        "required": true
+                    },
+                    {
+                        "name": "prompt",
+                        "type": "text",
+                        "label": "Prompt",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 15,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "parameters": {
+                "else": 1
+            },
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 1178,
+                    "y": -24
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 16,
+                            "module": "hubspotcrm:createDeal",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": 4901118
+                            },
+                            "filter": {
+                                "name": "Lead Rico",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{23.`AI Response`}}",
+                                            "b": "10",
+                                            "o": "text:contain:ci"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "amount": "5000",
+                                "_method": "all",
+                                "dealname": "{{10.`0`}}",
+                                "pipeline": "default",
+                                "description": "{{23.`AI Response`}}",
+                                "parseCustomFields": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1447,
+                                    "y": -157
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "_method": {
+                                            "mode": "chose",
+                                            "label": "All Fields"
+                                        },
+                                        "dealtype": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "pipeline": {
+                                            "mode": "chose",
+                                            "label": "Sales Pipeline"
+                                        },
+                                        "dealstage": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "hs_priority": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "associations": {
+                                            "mode": "chose"
+                                        },
+                                        "hubspot_owner_id": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "parseCustomFields": {
+                                            "mode": "chose",
+                                            "collapsed": true
+                                        },
+                                        "deal_currency_code": {
+                                            "mode": "edit"
+                                        },
+                                        "hs_shared_team_ids": {
+                                            "mode": "edit"
+                                        },
+                                        "hs_shared_user_ids": {
+                                            "mode": "edit"
+                                        },
+                                        "hs_analytics_source": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "hs_is_active_shared_deal": {
+                                            "mode": "chose"
+                                        },
+                                        "hs_manual_forecast_category": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "hs_all_collaborator_owner_ids": {
+                                            "mode": "edit"
+                                        },
+                                        "hs_all_assigned_business_unit_ids": {
+                                            "mode": "edit"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "hubspotcrm"
+                                            },
+                                            "label": "My HubSpot CRM connection (nogmath185@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:hubspotcrm",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "_method",
+                                        "type": "select",
+                                        "label": "View Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "compact",
+                                                "all"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "parseCustomFields",
+                                        "type": "boolean",
+                                        "label": "Parse Custom Fields",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "amount",
+                                        "type": "number",
+                                        "label": "Amount"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "hs_all_assigned_business_unit_ids",
+                                        "type": "select",
+                                        "label": "Brands",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "closedate",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "Close Date"
+                                    },
+                                    {
+                                        "name": "closed_lost_reason",
+                                        "type": "text",
+                                        "label": "Closed Lost Reason"
+                                    },
+                                    {
+                                        "name": "closed_won_reason",
+                                        "type": "text",
+                                        "label": "Closed Won Reason"
+                                    },
+                                    {
+                                        "name": "createdate",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "Create Date"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "deal_currency_code",
+                                        "type": "select",
+                                        "label": "Currency"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "hs_all_collaborator_owner_ids",
+                                        "type": "select",
+                                        "label": "Deal Collaborator",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Deal Description"
+                                    },
+                                    {
+                                        "name": "dealname",
+                                        "type": "text",
+                                        "label": "Deal Name"
+                                    },
+                                    {
+                                        "name": "hubspot_owner_id",
+                                        "type": "select",
+                                        "label": "Deal Owner"
+                                    },
+                                    {
+                                        "name": "hs_deal_stage_probability",
+                                        "type": "number",
+                                        "label": "Deal Probability"
+                                    },
+                                    {
+                                        "name": "dealstage",
+                                        "type": "select",
+                                        "label": "Deal Stage"
+                                    },
+                                    {
+                                        "name": "dealtype",
+                                        "type": "select",
+                                        "label": "Deal Type"
+                                    },
+                                    {
+                                        "name": "hs_exchange_rate",
+                                        "type": "number",
+                                        "label": "Exchange Rate"
+                                    },
+                                    {
+                                        "name": "hs_manual_forecast_category",
+                                        "type": "select",
+                                        "label": "Forecast Category"
+                                    },
+                                    {
+                                        "name": "hs_forecast_probability",
+                                        "type": "number",
+                                        "label": "Forecast Probability"
+                                    },
+                                    {
+                                        "name": "hs_is_active_shared_deal",
+                                        "type": "boolean",
+                                        "label": "Is Active Shared Deal"
+                                    },
+                                    {
+                                        "name": "hs_next_step",
+                                        "type": "text",
+                                        "label": "Next Step"
+                                    },
+                                    {
+                                        "name": "hs_analytics_source",
+                                        "type": "select",
+                                        "label": "Original Traffic Source"
+                                    },
+                                    {
+                                        "name": "pipeline",
+                                        "type": "select",
+                                        "label": "Pipeline"
+                                    },
+                                    {
+                                        "name": "hs_priority",
+                                        "type": "select",
+                                        "label": "Priority"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "hs_shared_team_ids",
+                                        "type": "select",
+                                        "label": "Shared Teams",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "hs_shared_user_ids",
+                                        "type": "select",
+                                        "label": "Shared Users",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "associations",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "associationCategory",
+                                                    "type": "select",
+                                                    "label": "Association Category",
+                                                    "options": [
+                                                        {
+                                                            "label": "Hubspot Defined",
+                                                            "value": "HUBSPOT_DEFINED"
+                                                        },
+                                                        {
+                                                            "label": "User Defined",
+                                                            "value": "USER_DEFINED"
+                                                        },
+                                                        {
+                                                            "label": "Integrator Defined",
+                                                            "value": "INTEGRATOR_DEFINED"
+                                                        }
+                                                    ],
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "associationTypeId",
+                                                    "type": "select",
+                                                    "label": "Association Type ID",
+                                                    "options": [
+                                                        {
+                                                            "label": "Deal to deal",
+                                                            "value": "451",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=deals",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to contact",
+                                                            "value": "3",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=contacts",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to company",
+                                                            "value": "341",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=companies",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to company (Primary)",
+                                                            "value": "5",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=companies",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to ticket",
+                                                            "value": "27",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=tickets",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to call",
+                                                            "value": "205",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=calls",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to email",
+                                                            "value": "209",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=emails",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to meeting",
+                                                            "value": "211",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=meetings",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to note",
+                                                            "value": "213",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=notes",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to task",
+                                                            "value": "215",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=tasks",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to communication (SMS, WhatsApp, or LinkedIn message)",
+                                                            "value": "86",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=communications",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to postal mail",
+                                                            "value": "458",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=postal_mail",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to deal split",
+                                                            "value": "313",
+                                                            "nested": [
+                                                                {
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to line item",
+                                                            "value": "19",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=line_items",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to invoice",
+                                                            "value": "176",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=invoices",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to order",
+                                                            "value": "511",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=orders",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to payment",
+                                                            "value": "392",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=commerce_payments",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to quote",
+                                                            "value": "63",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=quotes",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to subscription",
+                                                            "value": "300",
+                                                            "nested": [
+                                                                {
+                                                                    "rpc": {
+                                                                        "url": "rpc://hubspotcrm/2/searchObjects?objectType=subscriptions",
+                                                                        "label": "ID Finder",
+                                                                        "parameters": [
+                                                                            {
+                                                                                "type": "html",
+                                                                                "label": "<div style='color: #205671; background: #E8F6FF; border-radius: 5px; padding: 12px 16px 12px 16px; font-size: 12px;'>If you don't see the result you're looking for, try more specific search criteria.</div>"
+                                                                            },
+                                                                            {
+                                                                                "name": "query",
+                                                                                "type": "text",
+                                                                                "label": "Content"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to appointment",
+                                                            "value": "945",
+                                                            "nested": [
+                                                                {
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to course",
+                                                            "value": "83",
+                                                            "nested": [
+                                                                {
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to listing",
+                                                            "value": "887",
+                                                            "nested": [
+                                                                {
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "Deal to service",
+                                                            "value": "795",
+                                                            "nested": [
+                                                                {
+                                                                    "name": "toId",
+                                                                    "type": "uinteger",
+                                                                    "label": "To Object ID",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "required": true
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Types",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "Associations"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        },
+                        {
+                            "id": 17,
+                            "module": "google-sheets:updateRow",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": 4895452
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "mode": "select",
+                                "values": {
+                                    "3": "Aprovado - Enviado pro CRM"
+                                },
+                                "sheetId": "Página1",
+                                "rowNumber": "{{10.`__ROW_NUMBER__`}}",
+                                "spreadsheetId": "/1AXx8m4fpZkRDY3UpKO41zClDsmqG7p07A10sHlxsFx4",
+                                "includesHeaders": true,
+                                "valueInputOption": "USER_ENTERED"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1747,
+                                    "y": -157
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "My Drive"
+                                        },
+                                        "mode": {
+                                            "label": "Search by path"
+                                        },
+                                        "sheetId": {
+                                            "label": "Página1"
+                                        },
+                                        "spreadsheetId": {
+                                            "path": [
+                                                "Lead_Machine_Make"
+                                            ]
+                                        },
+                                        "includesHeaders": {
+                                            "label": "Yes",
+                                            "nested": [
+                                                {
+                                                    "name": "values",
+                                                    "spec": [
+                                                        {
+                                                            "name": "0",
+                                                            "type": "text",
+                                                            "label": "Nome da Empresa (A)"
+                                                        },
+                                                        {
+                                                            "name": "1",
+                                                            "type": "text",
+                                                            "label": "Site (URL) (B)"
+                                                        },
+                                                        {
+                                                            "name": "2",
+                                                            "type": "text",
+                                                            "label": "Nome do Contato (C)"
+                                                        },
+                                                        {
+                                                            "name": "3",
+                                                            "type": "text",
+                                                            "label": "Status (Vamos preencher via Make) (D)"
+                                                        },
+                                                        {
+                                                            "name": "4",
+                                                            "type": "text",
+                                                            "label": "Análise da IA (Vamos preencher via Make) (E)"
+                                                        },
+                                                        {
+                                                            "name": "5",
+                                                            "type": "text",
+                                                            "label": "Rascunho do Email (Vamos preencher via Make) (F)"
+                                                        },
+                                                        {
+                                                            "name": "6",
+                                                            "type": "text",
+                                                            "label": "(G)"
+                                                        },
+                                                        {
+                                                            "name": "7",
+                                                            "type": "text",
+                                                            "label": "(H)"
+                                                        },
+                                                        {
+                                                            "name": "8",
+                                                            "type": "text",
+                                                            "label": "(I)"
+                                                        },
+                                                        {
+                                                            "name": "9",
+                                                            "type": "text",
+                                                            "label": "(J)"
+                                                        },
+                                                        {
+                                                            "name": "10",
+                                                            "type": "text",
+                                                            "label": "(K)"
+                                                        },
+                                                        {
+                                                            "name": "11",
+                                                            "type": "text",
+                                                            "label": "(L)"
+                                                        },
+                                                        {
+                                                            "name": "12",
+                                                            "type": "text",
+                                                            "label": "(M)"
+                                                        },
+                                                        {
+                                                            "name": "13",
+                                                            "type": "text",
+                                                            "label": "(N)"
+                                                        },
+                                                        {
+                                                            "name": "14",
+                                                            "type": "text",
+                                                            "label": "(O)"
+                                                        },
+                                                        {
+                                                            "name": "15",
+                                                            "type": "text",
+                                                            "label": "(P)"
+                                                        },
+                                                        {
+                                                            "name": "16",
+                                                            "type": "text",
+                                                            "label": "(Q)"
+                                                        },
+                                                        {
+                                                            "name": "17",
+                                                            "type": "text",
+                                                            "label": "(R)"
+                                                        },
+                                                        {
+                                                            "name": "18",
+                                                            "type": "text",
+                                                            "label": "(S)"
+                                                        },
+                                                        {
+                                                            "name": "19",
+                                                            "type": "text",
+                                                            "label": "(T)"
+                                                        },
+                                                        {
+                                                            "name": "20",
+                                                            "type": "text",
+                                                            "label": "(U)"
+                                                        },
+                                                        {
+                                                            "name": "21",
+                                                            "type": "text",
+                                                            "label": "(V)"
+                                                        },
+                                                        {
+                                                            "name": "22",
+                                                            "type": "text",
+                                                            "label": "(W)"
+                                                        },
+                                                        {
+                                                            "name": "23",
+                                                            "type": "text",
+                                                            "label": "(X)"
+                                                        },
+                                                        {
+                                                            "name": "24",
+                                                            "type": "text",
+                                                            "label": "(Y)"
+                                                        },
+                                                        {
+                                                            "name": "25",
+                                                            "type": "text",
+                                                            "label": "(Z)"
+                                                        }
+                                                    ],
+                                                    "type": "collection",
+                                                    "label": "Values"
+                                                }
+                                            ]
+                                        },
+                                        "valueInputOption": {
+                                            "mode": "chose",
+                                            "label": "User entered"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (nogmath185@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "mode",
+                                        "type": "select",
+                                        "label": "Search Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "select",
+                                                "fromAll",
+                                                "map"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "valueInputOption",
+                                        "type": "select",
+                                        "label": "Value input option",
+                                        "validate": {
+                                            "enum": [
+                                                "USER_ENTERED",
+                                                "RAW"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "spreadsheetId",
+                                        "type": "file",
+                                        "label": "Spreadsheet ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "sheetId",
+                                        "type": "select",
+                                        "label": "Sheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "rowNumber",
+                                        "type": "uinteger",
+                                        "label": "Row number",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "includesHeaders",
+                                        "type": "select",
+                                        "label": "Table contains headers",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "values",
+                                        "spec": [
+                                            {
+                                                "name": "0",
+                                                "type": "text",
+                                                "label": "Nome da Empresa (A)"
+                                            },
+                                            {
+                                                "name": "1",
+                                                "type": "text",
+                                                "label": "Site (URL) (B)"
+                                            },
+                                            {
+                                                "name": "2",
+                                                "type": "text",
+                                                "label": "Nome do Contato (C)"
+                                            },
+                                            {
+                                                "name": "3",
+                                                "type": "text",
+                                                "label": "Status (Vamos preencher via Make) (D)"
+                                            },
+                                            {
+                                                "name": "4",
+                                                "type": "text",
+                                                "label": "Análise da IA (Vamos preencher via Make) (E)"
+                                            },
+                                            {
+                                                "name": "5",
+                                                "type": "text",
+                                                "label": "Rascunho do Email (Vamos preencher via Make) (F)"
+                                            },
+                                            {
+                                                "name": "6",
+                                                "type": "text",
+                                                "label": "(G)"
+                                            },
+                                            {
+                                                "name": "7",
+                                                "type": "text",
+                                                "label": "(H)"
+                                            },
+                                            {
+                                                "name": "8",
+                                                "type": "text",
+                                                "label": "(I)"
+                                            },
+                                            {
+                                                "name": "9",
+                                                "type": "text",
+                                                "label": "(J)"
+                                            },
+                                            {
+                                                "name": "10",
+                                                "type": "text",
+                                                "label": "(K)"
+                                            },
+                                            {
+                                                "name": "11",
+                                                "type": "text",
+                                                "label": "(L)"
+                                            },
+                                            {
+                                                "name": "12",
+                                                "type": "text",
+                                                "label": "(M)"
+                                            },
+                                            {
+                                                "name": "13",
+                                                "type": "text",
+                                                "label": "(N)"
+                                            },
+                                            {
+                                                "name": "14",
+                                                "type": "text",
+                                                "label": "(O)"
+                                            },
+                                            {
+                                                "name": "15",
+                                                "type": "text",
+                                                "label": "(P)"
+                                            },
+                                            {
+                                                "name": "16",
+                                                "type": "text",
+                                                "label": "(Q)"
+                                            },
+                                            {
+                                                "name": "17",
+                                                "type": "text",
+                                                "label": "(R)"
+                                            },
+                                            {
+                                                "name": "18",
+                                                "type": "text",
+                                                "label": "(S)"
+                                            },
+                                            {
+                                                "name": "19",
+                                                "type": "text",
+                                                "label": "(T)"
+                                            },
+                                            {
+                                                "name": "20",
+                                                "type": "text",
+                                                "label": "(U)"
+                                            },
+                                            {
+                                                "name": "21",
+                                                "type": "text",
+                                                "label": "(V)"
+                                            },
+                                            {
+                                                "name": "22",
+                                                "type": "text",
+                                                "label": "(W)"
+                                            },
+                                            {
+                                                "name": "23",
+                                                "type": "text",
+                                                "label": "(X)"
+                                            },
+                                            {
+                                                "name": "24",
+                                                "type": "text",
+                                                "label": "(Y)"
+                                            },
+                                            {
+                                                "name": "25",
+                                                "type": "text",
+                                                "label": "(Z)"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Values"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 18,
+                            "module": "http:MakeRequest",
+                            "version": 4,
+                            "parameters": {
+                                "tlsType": "",
+                                "proxyKeychain": "",
+                                "authenticationType": "noAuth"
+                            },
+                            "mapper": {
+                                "url": "https://trigger.macrodroid.com/6cd6c604-2179-4936-8373-aadb89a8210a/zap_msg",
+                                "method": "get",
+                                "shareCookies": false,
+                                "parseResponse": true,
+                                "allowRedirects": true,
+                                "queryParameters": [
+                                    {
+                                        "name": "numero",
+                                        "value": "5519999191354"
+                                    },
+                                    {
+                                        "name": "texto",
+                                        "value": "Sucesso! Cliente cadastrado no HubSpot"
+                                    }
+                                ],
+                                "stopOnHttpError": true,
+                                "requestCompressedContent": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 2047,
+                                    "y": -157
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "method": {
+                                            "mode": "chose",
+                                            "label": "GET"
+                                        },
+                                        "headers": {
+                                            "mode": "chose"
+                                        },
+                                        "contentType": {
+                                            "label": "Empty"
+                                        },
+                                        "shareCookies": {
+                                            "mode": "chose"
+                                        },
+                                        "parseResponse": {
+                                            "mode": "chose"
+                                        },
+                                        "allowRedirects": {
+                                            "mode": "chose"
+                                        },
+                                        "paginationType": {
+                                            "label": "Empty"
+                                        },
+                                        "queryParameters": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null,
+                                                null
+                                            ]
+                                        },
+                                        "stopOnHttpError": {
+                                            "mode": "chose"
+                                        },
+                                        "requestCompressedContent": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "tlsType": {
+                                            "label": "Empty"
+                                        },
+                                        "proxyKeychain": {
+                                            "label": "Choose a key"
+                                        },
+                                        "authenticationType": {
+                                            "label": "No authenticationUse when no credentials are required for the request."
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "authenticationType",
+                                        "type": "select",
+                                        "label": "Authentication type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "noAuth",
+                                                "apiKey",
+                                                "basicAuth",
+                                                "oAuth"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tlsType",
+                                        "type": "select",
+                                        "label": "Transport layer security (TLS)",
+                                        "validate": {
+                                            "enum": [
+                                                "mTls",
+                                                "tls"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "proxyKeychain",
+                                        "type": "keychain:proxy",
+                                        "label": "Proxy"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "method",
+                                        "type": "select",
+                                        "label": "Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "get",
+                                                "head",
+                                                "post",
+                                                "put",
+                                                "patch",
+                                                "delete",
+                                                "options"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true,
+                                                    "validate": {
+                                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Header"
+                                        },
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "queryParameters",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Parameter"
+                                        },
+                                        "type": "array",
+                                        "label": "Query parameters"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Body content type",
+                                        "validate": {
+                                            "enum": [
+                                                "json",
+                                                "multipart",
+                                                "urlEncoded",
+                                                "custom"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "parseResponse",
+                                        "type": "boolean",
+                                        "label": "Parse response",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "stopOnHttpError",
+                                        "type": "boolean",
+                                        "label": "Return error if HTTP request fails",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "type": "uinteger",
+                                        "label": "Timeout",
+                                        "validate": {
+                                            "max": 300,
+                                            "min": 1
+                                        }
+                                    },
+                                    {
+                                        "name": "allowRedirects",
+                                        "type": "boolean",
+                                        "label": "Allow redirects",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "shareCookies",
+                                        "type": "boolean",
+                                        "label": "Share cookies with other HTTP modules",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requestCompressedContent",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "paginationType",
+                                        "type": "select",
+                                        "label": "Pagination type",
+                                        "validate": {
+                                            "enum": [
+                                                "offsetBased",
+                                                "pageBased",
+                                                "urlBased",
+                                                "tokenBased"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "data",
+                                        "type": "any",
+                                        "label": "Data"
+                                    },
+                                    {
+                                        "name": "statusCode",
+                                        "type": "number",
+                                        "label": "Status Code"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "content-length",
+                                                "type": "text",
+                                                "label": "Content-Length"
+                                            },
+                                            {
+                                                "name": "content-encoding",
+                                                "type": "text",
+                                                "label": "Content-Encoding"
+                                            },
+                                            {
+                                                "name": "content-type",
+                                                "type": "text",
+                                                "label": "Content-Type"
+                                            },
+                                            {
+                                                "name": "server",
+                                                "type": "text",
+                                                "label": "Server"
+                                            },
+                                            {
+                                                "name": "cache-control",
+                                                "type": "text",
+                                                "label": "Cache-Control"
+                                            },
+                                            {
+                                                "name": "set-cookie",
+                                                "spec": {
+                                                    "type": "text"
+                                                },
+                                                "type": "array",
+                                                "label": "Set-Cookie"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Headers"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 19,
+                            "module": "google-sheets:updateRow",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": 4895452
+                            },
+                            "filter": {
+                                "name": "Lead Pobre",
+                                "conditions": []
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "mode": "select",
+                                "values": {
+                                    "3": "Reprovado - Baixo Potencial",
+                                    "4": "{{23.`AI Response`}}"
+                                },
+                                "sheetId": "Página1",
+                                "rowNumber": "{{10.`__ROW_NUMBER__`}}",
+                                "spreadsheetId": "/1AXx8m4fpZkRDY3UpKO41zClDsmqG7p07A10sHlxsFx4",
+                                "includesHeaders": true,
+                                "valueInputOption": "USER_ENTERED"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1443,
+                                    "y": 124
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "My Drive"
+                                        },
+                                        "mode": {
+                                            "label": "Search by path"
+                                        },
+                                        "sheetId": {
+                                            "label": "Página1"
+                                        },
+                                        "spreadsheetId": {
+                                            "path": [
+                                                "Lead_Machine_Make"
+                                            ]
+                                        },
+                                        "includesHeaders": {
+                                            "label": "Yes",
+                                            "nested": [
+                                                {
+                                                    "name": "values",
+                                                    "spec": [
+                                                        {
+                                                            "name": "0",
+                                                            "type": "text",
+                                                            "label": "Nome da Empresa (A)"
+                                                        },
+                                                        {
+                                                            "name": "1",
+                                                            "type": "text",
+                                                            "label": "Site (URL) (B)"
+                                                        },
+                                                        {
+                                                            "name": "2",
+                                                            "type": "text",
+                                                            "label": "Nome do Contato (C)"
+                                                        },
+                                                        {
+                                                            "name": "3",
+                                                            "type": "text",
+                                                            "label": "Status (Vamos preencher via Make) (D)"
+                                                        },
+                                                        {
+                                                            "name": "4",
+                                                            "type": "text",
+                                                            "label": "Análise da IA (Vamos preencher via Make) (E)"
+                                                        },
+                                                        {
+                                                            "name": "5",
+                                                            "type": "text",
+                                                            "label": "Rascunho do Email (Vamos preencher via Make) (F)"
+                                                        },
+                                                        {
+                                                            "name": "6",
+                                                            "type": "text",
+                                                            "label": "(G)"
+                                                        },
+                                                        {
+                                                            "name": "7",
+                                                            "type": "text",
+                                                            "label": "(H)"
+                                                        },
+                                                        {
+                                                            "name": "8",
+                                                            "type": "text",
+                                                            "label": "(I)"
+                                                        },
+                                                        {
+                                                            "name": "9",
+                                                            "type": "text",
+                                                            "label": "(J)"
+                                                        },
+                                                        {
+                                                            "name": "10",
+                                                            "type": "text",
+                                                            "label": "(K)"
+                                                        },
+                                                        {
+                                                            "name": "11",
+                                                            "type": "text",
+                                                            "label": "(L)"
+                                                        },
+                                                        {
+                                                            "name": "12",
+                                                            "type": "text",
+                                                            "label": "(M)"
+                                                        },
+                                                        {
+                                                            "name": "13",
+                                                            "type": "text",
+                                                            "label": "(N)"
+                                                        },
+                                                        {
+                                                            "name": "14",
+                                                            "type": "text",
+                                                            "label": "(O)"
+                                                        },
+                                                        {
+                                                            "name": "15",
+                                                            "type": "text",
+                                                            "label": "(P)"
+                                                        },
+                                                        {
+                                                            "name": "16",
+                                                            "type": "text",
+                                                            "label": "(Q)"
+                                                        },
+                                                        {
+                                                            "name": "17",
+                                                            "type": "text",
+                                                            "label": "(R)"
+                                                        },
+                                                        {
+                                                            "name": "18",
+                                                            "type": "text",
+                                                            "label": "(S)"
+                                                        },
+                                                        {
+                                                            "name": "19",
+                                                            "type": "text",
+                                                            "label": "(T)"
+                                                        },
+                                                        {
+                                                            "name": "20",
+                                                            "type": "text",
+                                                            "label": "(U)"
+                                                        },
+                                                        {
+                                                            "name": "21",
+                                                            "type": "text",
+                                                            "label": "(V)"
+                                                        },
+                                                        {
+                                                            "name": "22",
+                                                            "type": "text",
+                                                            "label": "(W)"
+                                                        },
+                                                        {
+                                                            "name": "23",
+                                                            "type": "text",
+                                                            "label": "(X)"
+                                                        },
+                                                        {
+                                                            "name": "24",
+                                                            "type": "text",
+                                                            "label": "(Y)"
+                                                        },
+                                                        {
+                                                            "name": "25",
+                                                            "type": "text",
+                                                            "label": "(Z)"
+                                                        }
+                                                    ],
+                                                    "type": "collection",
+                                                    "label": "Values"
+                                                }
+                                            ]
+                                        },
+                                        "valueInputOption": {
+                                            "mode": "chose",
+                                            "label": "User entered"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (nogmath185@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "mode",
+                                        "type": "select",
+                                        "label": "Search Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "select",
+                                                "fromAll",
+                                                "map"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "valueInputOption",
+                                        "type": "select",
+                                        "label": "Value input option",
+                                        "validate": {
+                                            "enum": [
+                                                "USER_ENTERED",
+                                                "RAW"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "spreadsheetId",
+                                        "type": "file",
+                                        "label": "Spreadsheet ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "sheetId",
+                                        "type": "select",
+                                        "label": "Sheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "rowNumber",
+                                        "type": "uinteger",
+                                        "label": "Row number",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "includesHeaders",
+                                        "type": "select",
+                                        "label": "Table contains headers",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "values",
+                                        "spec": [
+                                            {
+                                                "name": "0",
+                                                "type": "text",
+                                                "label": "Nome da Empresa (A)"
+                                            },
+                                            {
+                                                "name": "1",
+                                                "type": "text",
+                                                "label": "Site (URL) (B)"
+                                            },
+                                            {
+                                                "name": "2",
+                                                "type": "text",
+                                                "label": "Nome do Contato (C)"
+                                            },
+                                            {
+                                                "name": "3",
+                                                "type": "text",
+                                                "label": "Status (Vamos preencher via Make) (D)"
+                                            },
+                                            {
+                                                "name": "4",
+                                                "type": "text",
+                                                "label": "Análise da IA (Vamos preencher via Make) (E)"
+                                            },
+                                            {
+                                                "name": "5",
+                                                "type": "text",
+                                                "label": "Rascunho do Email (Vamos preencher via Make) (F)"
+                                            },
+                                            {
+                                                "name": "6",
+                                                "type": "text",
+                                                "label": "(G)"
+                                            },
+                                            {
+                                                "name": "7",
+                                                "type": "text",
+                                                "label": "(H)"
+                                            },
+                                            {
+                                                "name": "8",
+                                                "type": "text",
+                                                "label": "(I)"
+                                            },
+                                            {
+                                                "name": "9",
+                                                "type": "text",
+                                                "label": "(J)"
+                                            },
+                                            {
+                                                "name": "10",
+                                                "type": "text",
+                                                "label": "(K)"
+                                            },
+                                            {
+                                                "name": "11",
+                                                "type": "text",
+                                                "label": "(L)"
+                                            },
+                                            {
+                                                "name": "12",
+                                                "type": "text",
+                                                "label": "(M)"
+                                            },
+                                            {
+                                                "name": "13",
+                                                "type": "text",
+                                                "label": "(N)"
+                                            },
+                                            {
+                                                "name": "14",
+                                                "type": "text",
+                                                "label": "(O)"
+                                            },
+                                            {
+                                                "name": "15",
+                                                "type": "text",
+                                                "label": "(P)"
+                                            },
+                                            {
+                                                "name": "16",
+                                                "type": "text",
+                                                "label": "(Q)"
+                                            },
+                                            {
+                                                "name": "17",
+                                                "type": "text",
+                                                "label": "(R)"
+                                            },
+                                            {
+                                                "name": "18",
+                                                "type": "text",
+                                                "label": "(S)"
+                                            },
+                                            {
+                                                "name": "19",
+                                                "type": "text",
+                                                "label": "(T)"
+                                            },
+                                            {
+                                                "name": "20",
+                                                "type": "text",
+                                                "label": "(U)"
+                                            },
+                                            {
+                                                "name": "21",
+                                                "type": "text",
+                                                "label": "(V)"
+                                            },
+                                            {
+                                                "name": "22",
+                                                "type": "text",
+                                                "label": "(W)"
+                                            },
+                                            {
+                                                "name": "23",
+                                                "type": "text",
+                                                "label": "(X)"
+                                            },
+                                            {
+                                                "name": "24",
+                                                "type": "text",
+                                                "label": "(Y)"
+                                            },
+                                            {
+                                                "name": "25",
+                                                "type": "text",
+                                                "label": "(Z)"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Values"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}
